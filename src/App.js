@@ -2,7 +2,6 @@ import React from 'react';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 import SearchBooks from './SearchBooks';
-import Book from './Book';
 import Bookshelf from './Bookshelf';
 class BooksApp extends React.Component {
   state = {
@@ -21,6 +20,14 @@ class BooksApp extends React.Component {
   };
 
   render() {
+    const bookshelTitles = ['Currently Reading', 'Want To Read', 'Read'];
+    const textTransform = (text) => {
+      const words = text.split(' ');
+
+      words[0] = text.split(' ')[0].toLowerCase();
+      return words.join('');
+    };
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -31,19 +38,17 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <Bookshelf
-                shelfTitle={'Currently Reading'}
-                book={{
-                  bookCover: {
-                    width: 128,
-                    height: 193,
-                    backgroundImage:
-                      'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")',
-                  },
-                  title: 'To Kill The Light',
-                  authors: 'Harper Neon!',
-                }}
-              />
+              {bookshelTitles.map((shelfTitle) => {
+                return (
+                  <Bookshelf
+                    key={shelfTitle}
+                    shelfTitle={shelfTitle}
+                    books={this.state.books.filter((book) => {
+                      return book.shelf === textTransform(shelfTitle);
+                    })}
+                  />
+                );
+              })}
             </div>
             <div className="open-search">
               <button onClick={() => this.setState({ showSearchPage: true })}>
