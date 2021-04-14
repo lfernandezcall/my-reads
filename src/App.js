@@ -6,8 +6,8 @@ import { Link, BrowserRouter, Route } from 'react-router-dom';
 import ListBooks from './components/ListBooks';
 class BooksApp extends React.Component {
   state = {
-    showSearchPage: false,
-    books: [],
+    bookshelfTitles: ['Currently Reading', 'Want To Read', 'Read'],
+    books: []
   };
 
   componentDidMount() {
@@ -15,10 +15,6 @@ class BooksApp extends React.Component {
       this.setState({ books });
     });
   }
-
-  closeSearch = () => {
-    this.setState({ showSearchPage: !this.state.showSearchPage });
-  };
 
   selectBookshelf = (id = 'nggnmAEACAAJ', shelf = 'read') => {
     BooksAPI.update(id, shelf);
@@ -28,20 +24,19 @@ class BooksApp extends React.Component {
     }));
   };
 
+  textAdapter = (text) => {
+    const words = text.split(' ');
+
+    words[0] = text.split(' ')[0].toLowerCase();
+    return words.join('');
+  };
+
+  shelfBooks = (books, shelfTitle) => {
+    return books.filter((book) => book.shelf === this.textAdapter(shelfTitle));
+  };
+
   render() {
     window.books = this.state.books;
-    const bookshelfTitles = ['Currently Reading', 'Want To Read', 'Read'];
-    const textAdapter = (text) => {
-      const words = text.split(' ');
-
-      words[0] = text.split(' ')[0].toLowerCase();
-      return words.join('');
-    };
-
-    const shelfBooks = (books, shelfTitle) => {
-      return books.filter((book) => book.shelf === textAdapter(shelfTitle));
-    };
-
     return (
       <div className='app'>
         <BrowserRouter>
@@ -50,8 +45,8 @@ class BooksApp extends React.Component {
             path='/'
             render={() => (
               <ListBooks
-                shelfBooks={shelfBooks}
-                bookshelfTitles={bookshelfTitles}
+                shelfBooks={this.shelfBooks}
+                bookshelfTitles={this.state.bookshelfTitles}
                 selectBookshelf={this.selectBookshelf}
                 books={this.state.books}
               />
@@ -62,7 +57,6 @@ class BooksApp extends React.Component {
             render={({ history }) => (
               <SearchBooks
                 closeSearch={() => {
-                  // this.closeSearch();
                   history.push('/');
                 }}
               />
