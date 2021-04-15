@@ -2,6 +2,8 @@ import React from 'react';
 import BookShelfChanger from './BookShelfChanger';
 
 const Book = (props) => {
+  const  { bookCover, shelf, id, selectBookshelf, title, authors, searchMode} = props;
+
   return (
     <div className="book">
       <div className="book-top">
@@ -10,13 +12,13 @@ const Book = (props) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${props.bookCover}`,
+            backgroundImage: `url(${bookCover}`,
           }}
         />
-        <BookShelfChanger id={props.id} shelf={props.shelf} selectBookshelf={props.selectBookshelf}/>
+        <BookShelfChanger id={id} shelf={shelf} selectBookshelf={selectBookshelf} searchMode={searchMode}/>
       </div>
-      <div className="book-title">{props.title}</div>
-      <div className="book-authors">{props.authors.join(', ')}</div>
+      <div className="book-title">{title}</div>
+      <div className="book-authors">{authors && authors.join(', ')}</div>
     </div>
   );
 }

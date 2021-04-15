@@ -1,5 +1,5 @@
 import React from 'react';
-import * as BooksAPI from './BooksAPI';
+import { getAll, update, search } from './BooksAPI';
 import './App.css';
 import SearchBooks from './components/SearchBooks';
 import { Link, BrowserRouter, Route } from 'react-router-dom';
@@ -7,21 +7,29 @@ import ListBooks from './components/ListBooks';
 class BooksApp extends React.Component {
   state = {
     bookshelfTitles: ['Currently Reading', 'Want To Read', 'Read'],
-    books: []
+    books: [],
+    queriedBooks: []
   };
 
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books });
-    });
+    this.getBooks();
   }
 
-  selectBookshelf = (id = 'nggnmAEACAAJ', shelf = 'read') => {
-    BooksAPI.update(id, shelf);
+  getBooks = () => getAll().then((books) => {
+    this.setState({ books });
+  });
 
-    this.setState((currentState) => ({
-      books: currentState.books.map((i) => (i.id === id ? { ...i, shelf } : i)),
-    }));
+  selectBookshelf = (id, shelf, searchMode) => {
+    update(id, shelf).then( () => {
+      searchMode && this.getBooks();
+
+    })
+    !searchMode &&
+      this.setState((currentState) => ({
+        books: currentState.books.map((i) =>
+          i.id === id ? { ...i, shelf } : i
+        ),
+      }));
   };
 
   textAdapter = (text) => {
@@ -33,6 +41,14 @@ class BooksApp extends React.Component {
 
   shelfBooks = (books, shelfTitle) => {
     return books.filter((book) => book.shelf === this.textAdapter(shelfTitle));
+  };
+
+  searchBooks = (query) => {
+    search(query).then((books = []) => {
+      books && books.error
+        ? console.log('Query not allowed!!!')
+        : this.setState({ queriedBooks: books });
+    });
   };
 
   render() {
@@ -58,7 +74,13 @@ class BooksApp extends React.Component {
               <SearchBooks
                 closeSearch={() => {
                   history.push('/');
+                  this.setState({ ...this.state, queriedBooks: [] });
                 }}
+                selectBookshelf={this.selectBookshelf}
+                queriedBooks={this.state.queriedBooks}
+                booksInShelf={this.state.books}
+                searchBooks={this.searchBooks}
+                searchMode={true}
               />
             )}
           />
