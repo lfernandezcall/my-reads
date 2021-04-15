@@ -20,12 +20,13 @@ class SearchBooks extends React.Component {
         <div className='search-books-results'>
           <ol className='books-grid'>
             {this.props.queriedBooks.map((book) => {
-           
+                const currentBook = this.props.booksInShelf.find(i => book.id === i.id)
+                const currentBookShelf = currentBook !== undefined ? currentBook.shelf : 'none'
               return (
                 <li key={book.id}>
                   <Book
                     id={book.id}
-                    shelf={book.shelf = 'none'}
+                    shelf={currentBookShelf}
                     selectBookshelf={selectBookshelf}
                     key={book.title}
                     bookCover={book.imageLinks && book.imageLinks.thumbnail}

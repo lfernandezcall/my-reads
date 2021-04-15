@@ -4,7 +4,7 @@ const BookShelfChanger = (props) => {
     return (
         <div className="book-shelf-changer">
             <select value={props.shelf} onChange={(e) => props.selectBookshelf(props.id, e.target.value, props.searchMode)}>
-                <option value="move" disabled>Move to...</option>
+                <option value="move" disabled>Shelf...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
