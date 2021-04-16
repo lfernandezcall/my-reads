@@ -57,11 +57,11 @@ class BooksApp extends React.Component {
     const { bookshelfTitles, queriedBooks, books } = this.state;
 
     return (
-      <div className='app'>
+      <div className="app">
         <BrowserRouter>
           <Route
             exact
-            path='/'
+            path="/"
             render={() => (
               <ListBooks
                 shelfBooks={this.shelfBooks}
@@ -72,7 +72,7 @@ class BooksApp extends React.Component {
             )}
           />
           <Route
-            path='/search'
+            path="/search"
             render={({ history }) => (
               <SearchBooks
                 closeSearch={() => {

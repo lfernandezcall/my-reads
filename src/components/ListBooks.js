@@ -7,10 +7,10 @@ const ListBooks = (props) => {
 
   return (
     <div>
-      <div className='list-books-title'>
+      <div className="list-books-title">
         <h1>MyReads</h1>
       </div>
-      <div className='list-books-content'>
+      <div className="list-books-content">
         {bookshelfTitles.map((shelfTitle) => {
           return (
             <Bookshelf
@@ -22,7 +22,7 @@ const ListBooks = (props) => {
           );
         })}
       </div>
-      <Link className='open-search' to='/search'>
+      <Link className="open-search" to="/search">
         Add a book
       </Link>
     </div>

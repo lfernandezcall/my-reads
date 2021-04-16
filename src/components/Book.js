@@ -10,10 +10,10 @@ const Book = (props) => {
   } = props;
 
   return (
-    <div className='book'>
-      <div className='book-top'>
+    <div className="book">
+      <div className="book-top">
         <div
-          className='book-cover'
+          className="book-cover"
           style={{
             width: 128,
             height: 193,
@@ -27,8 +27,8 @@ const Book = (props) => {
           searching={searching}
         />
       </div>
-      <div className='book-title'>{title}</div>
-      <div className='book-authors'>{authors && authors.join(', ')}</div>
+      <div className="book-title">{title}</div>
+      <div className="book-authors">{authors && authors.join(', ')}</div>
     </div>
   );
 };

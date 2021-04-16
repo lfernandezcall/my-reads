@@ -12,21 +12,21 @@ const SearchBooks = (props) => {
   } = props;
 
   return (
-    <div className='search-books'>
-      <div className='search-books-bar'>
-        <button className='close-search' onClick={closeSearch}>
+    <div className="search-books">
+      <div className="search-books-bar">
+        <button className="close-search" onClick={closeSearch}>
           Close
         </button>
-        <div className='search-books-input-wrapper'>
+        <div className="search-books-input-wrapper">
           <input
             onChange={(e) => searchBooks(e.target.value)}
-            type='text'
-            placeholder='Search by title or author'
+            type="text"
+            placeholder="Search by title or author"
           />
         </div>
       </div>
-      <div className='search-books-results'>
-        <ol className='books-grid'>
+      <div className="search-books-results">
+        <ol className="books-grid">
           {queriedBooks.map((book) => {
             const currentBook = booksInShelf.find((i) => book.id === i.id);
             const currentBookShelf = currentBook !== undefined ? currentBook.shelf : 'none';
