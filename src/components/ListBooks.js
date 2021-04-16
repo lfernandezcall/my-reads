@@ -22,9 +22,9 @@ const ListBooks = (props) => {
           );
         })}
       </div>
-      <Link  className='open-search' to='/search'>
-            Add a book
-          </Link>
+      <Link className='open-search' to='/search'>
+        Add a book
+      </Link>
     </div>
   );
 };
