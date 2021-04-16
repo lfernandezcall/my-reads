@@ -8,23 +8,31 @@ class BooksApp extends React.Component {
   state = {
     bookshelfTitles: ['Currently Reading', 'Want To Read', 'Read'],
     books: [],
-    queriedBooks: []
+    queriedBooks: [],
   };
 
   componentDidMount() {
-    this.getBooks();
+    this.fetchBooks();
   }
 
-  getBooks = () => getAll().then((books) => {
-    this.setState({ books });
-  });
+  fetchBooks = () =>
+    getAll().then((books) => {
+      this.setState({ books });
+    });
 
-  selectBookshelf = (id, shelf, searchMode) => {
-    update(id, shelf).then( () => {
-      searchMode && this.getBooks();
+  fetchSearch = (query) => {
+    search(query).then((queriedBooks = []) => {
+      queriedBooks.error
+        ? console.log(`The query "${query}" is not allowed, check the SEARCH_TERMS.md file...`)
+        : this.setState({ queriedBooks });
+    });
+  }
 
-    })
-    !searchMode &&
+  selectBookshelf = (id, shelf, searching) => {
+    update(id, shelf).then(() => {
+      searching && this.fetchBooks();
+    });
+    !searching &&
       this.setState((currentState) => ({
         books: currentState.books.map((i) =>
           i.id === id ? { ...i, shelf } : i
@@ -44,15 +52,12 @@ class BooksApp extends React.Component {
   };
 
   searchBooks = (query) => {
-    search(query).then((books = []) => {
-      books && books.error
-        ? console.log('Query not allowed!!!')
-        : this.setState({ queriedBooks: books });
-    });
+    query === '' ? this.setState({ queriedBooks: [] }) : this.fetchSearch(query)
   };
 
   render() {
-    window.books = this.state.books;
+    const { bookshelfTitles, queriedBooks, books } = this.state;
+
     return (
       <div className='app'>
         <BrowserRouter>
@@ -62,9 +67,9 @@ class BooksApp extends React.Component {
             render={() => (
               <ListBooks
                 shelfBooks={this.shelfBooks}
-                bookshelfTitles={this.state.bookshelfTitles}
+                bookshelfTitles={bookshelfTitles}
                 selectBookshelf={this.selectBookshelf}
-                books={this.state.books}
+                books={books}
               />
             )}
           />
@@ -77,10 +82,10 @@ class BooksApp extends React.Component {
                   this.setState({ ...this.state, queriedBooks: [] });
                 }}
                 selectBookshelf={this.selectBookshelf}
-                queriedBooks={this.state.queriedBooks}
-                booksInShelf={this.state.books}
+                queriedBooks={queriedBooks}
+                booksInShelf={books}
                 searchBooks={this.searchBooks}
-                searchMode={true}
+                searching={true}
               />
             )}
           />

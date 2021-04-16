@@ -9,8 +9,8 @@ const ListBooks = (props) => {
       {bookshelfTitles.map((shelfTitle) => {
         return (
           <Bookshelf
-            selectBookshelf={selectBookshelf}
             key={shelfTitle}
+            selectBookshelf={selectBookshelf}
             shelfTitle={shelfTitle}
             books={shelfBooks(books, shelfTitle)}
           />
