@@ -8,7 +8,7 @@ const SearchBooks = (props) => {
     searchBooks,
     queriedBooks,
     booksInShelf,
-    searching,
+    searching
   } = props;
 
   return (
@@ -29,8 +29,7 @@ const SearchBooks = (props) => {
         <ol className='books-grid'>
           {queriedBooks.map((book) => {
             const currentBook = booksInShelf.find((i) => book.id === i.id);
-            const currentBookShelf =
-              currentBook !== undefined ? currentBook.shelf : 'none';
+            const currentBookShelf = currentBook !== undefined ? currentBook.shelf : 'none';
             return (
               <li key={book.id}>
                 <Book

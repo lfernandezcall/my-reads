@@ -2,8 +2,8 @@ import React from 'react';
 import Book from './Book';
 
 const Bookshelf = (props) => {
-  const { books, shelfTitle, selectBookshelf} = props;
-  
+  const { books, shelfTitle, selectBookshelf } = props;
+
   return (
     books.length > 0 && (
       <div className='bookshelf'>
@@ -13,11 +13,7 @@ const Bookshelf = (props) => {
             {books.map((book) => {
               return (
                 <li key={book.id}>
-                  <Book
-                    key={book.id}
-                    book={book}
-                    selectBookshelf={selectBookshelf}
-                  />
+                  <Book key={book.id} book={book} selectBookshelf={selectBookshelf} />
                 </li>
               );
             })}

@@ -8,7 +8,7 @@ class BooksApp extends React.Component {
   state = {
     bookshelfTitles: ['Currently Reading', 'Want To Read', 'Read'],
     books: [],
-    queriedBooks: [],
+    queriedBooks: []
   };
 
   componentDidMount() {
@@ -26,7 +26,7 @@ class BooksApp extends React.Component {
         ? console.log(`The query "${query}" is not allowed, check the SEARCH_TERMS.md file...`)
         : this.setState({ queriedBooks });
     });
-  }
+  };
 
   selectBookshelf = (id, shelf, searching) => {
     update(id, shelf).then(() => {
@@ -34,9 +34,7 @@ class BooksApp extends React.Component {
     });
     !searching &&
       this.setState((currentState) => ({
-        books: currentState.books.map((i) =>
-          i.id === id ? { ...i, shelf } : i
-        ),
+        books: currentState.books.map((i) => (i.id === id ? { ...i, shelf } : i))
       }));
   };
 
@@ -52,7 +50,7 @@ class BooksApp extends React.Component {
   };
 
   searchBooks = (query) => {
-    query === '' ? this.setState({ queriedBooks: [] }) : this.fetchSearch(query)
+    query === '' ? this.setState({ queriedBooks: [] }) : this.fetchSearch(query);
   };
 
   render() {
