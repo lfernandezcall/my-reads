@@ -2,7 +2,7 @@ import React from 'react';
 import { getAll, update, search } from './BooksAPI';
 import './App.css';
 import SearchBooks from './components/SearchBooks';
-import { Link, BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import ListBooks from './components/ListBooks';
 class BooksApp extends React.Component {
   state = {
@@ -20,11 +20,14 @@ class BooksApp extends React.Component {
       this.setState({ books });
     });
 
+  handleSearchError = (query) => {
+    this.setState({ queriedBooks: [] });
+    console.log(`The query "${query}" is not allowed, check the SEARCH_TERMS.md file...`);
+  };
+
   fetchSearch = (query) => {
     search(query).then((queriedBooks = []) => {
-      queriedBooks.error
-        ? console.log(`The query "${query}" is not allowed, check the SEARCH_TERMS.md file...`)
-        : this.setState({ queriedBooks });
+      queriedBooks.error ? this.handleSearchError(query) : this.setState({ queriedBooks });
     });
   };
 
